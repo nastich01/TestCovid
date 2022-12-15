@@ -60,26 +60,12 @@ public class ViewHospitals extends AppCompatActivity{
         //точка обзора
         IMapController mapController = map.getController();
         mapController.setZoom(15);
-        //GeoPoint startPoint = new GeoPoint(55.792139, 49.122135);
-        //loadLocation(); //для загрузки геолокации
+        loadLocation(); //для загрузки геолокации
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
 
         String[] permissions = new String[]{"Manifest.permission.ACCESS_FINE_LOCATION","Manifest.permission.WRITE_EXTERNAL_STORAGE"};
         requestPermissionsIfNecessary(permissions);
-
-
-        /*GeoPoint myGeoPoint = new GeoPoint(latitude,longitude);
-        OverlayItem overlayItem = new OverlayItem("Мое местоположение", "Я", myGeoPoint);
-        Drawable markerDrawable= this.getResources().getDrawable(R.drawable.loc2);
-        overlayItem.setMarker(markerDrawable);
-
-        ArrayList<OverlayItem> overlayItemArrayList = new ArrayList<OverlayItem>();
-        overlayItemArrayList.add(overlayItem);
-        ItemizedOverlay<OverlayItem> locationOverlay = new ItemizedIconOverlay<OverlayItem>(this, overlayItemArrayList, null);
-
-        MapView mapView = (MapView) findViewById(R.id.map);
-        mapView.getOverlays().add(locationOverlay);*/
 
         showHospitals();
     }
@@ -98,37 +84,6 @@ public class ViewHospitals extends AppCompatActivity{
     public void goB(View view){
         Intent intent = new Intent(this, ListBeforeMap.class);
         startActivity(intent);
-    }
-
-    private void showH(Hospital store){
-        DataBaseAdapter adapter = new DataBaseAdapter(this);
-        adapter.open();
-        MapView mapView = (MapView) findViewById(R.id.map);
-        Drawable markerDrawable= this.getResources().getDrawable(R.drawable.h3);
-        Drawable markerDrawable1= this.getResources().getDrawable(R.drawable.h);
-        double lat = store.getLatitude();
-        double longi = store.getLongitude();
-        ArrayList<OverlayItem> overlayItemArrayList = new ArrayList<OverlayItem>();
-
-        List<Hospital> stores = adapter.getStores();
-
-        for(Hospital hosp: stores){
-            double latit = hosp.getLatitude();
-            double longit = hosp.getLongitude();
-
-            GeoPoint geoPoint = new GeoPoint(latit,longit);
-            OverlayItem item = new OverlayItem("1", "1", geoPoint);
-            item.setMarker(markerDrawable1);
-            overlayItemArrayList.add(item);
-        }
-
-        GeoPoint geoPoint = new GeoPoint(lat,longi);
-        OverlayItem item = new OverlayItem("1", "1", geoPoint);
-        item.setMarker(markerDrawable);
-        overlayItemArrayList.add(item);
-        ItemizedOverlay<OverlayItem> locationOverlay = new ItemizedIconOverlay<OverlayItem>(this, overlayItemArrayList, null);
-        mapView.getOverlays().add(locationOverlay);
-        adapter.close();
     }
 
     private void showHospitals(){
